@@ -32,7 +32,8 @@ export default class HomePage extends React.Component {
         <h2>Loading</h2>
       )
     } else {
-      pollsIndex = this.state.polls.map((poll) => {
+      pollsIndex = Object.keys(this.state.polls).map((pollId) => {
+        const poll = this.state.polls[pollId];
         const url = '/poll/' + poll.id;
         return (
           <LinkContainer key={poll.id} to={{pathname: url}}>
