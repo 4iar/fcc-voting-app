@@ -1,12 +1,28 @@
 import React from 'react';
 import {Col, Grid, Row, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import {connect} from 'react-redux';
 
+function getState(state) {
+  return {
+    polls: state.app.polls
+  };
+}
+
+@connect(getState)
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {polls: [{id: 40302, description: 'question description', question: 'question title'}]};
+    this.state = {
+      polls: this.props.polls
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      polls: newProps.polls
+    });
   }
 
   render() {
