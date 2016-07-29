@@ -1,3 +1,7 @@
-export default {
-  placeholder: 'yup'
+const initialstate = {
+  app: {
+    placeholder: 'yup'
+  }
 };
+
+export default initialstate;
