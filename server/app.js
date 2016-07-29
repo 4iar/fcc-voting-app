@@ -2,6 +2,7 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const bodyParser = require('body-parser')
+const generateRandomString = require('./utils/generateRandomString');
 
 
 const MongoClient = mongodb.MongoClient;
@@ -28,6 +29,7 @@ app.post('/api/user/create', (request, response) => {
 app.post('/api/poll/create', (request, response) => {
   const poll = request.body.poll;
 
+  const id = generateRandomString();
   const question = poll.question;
   const description = poll.description;
   const choices = poll.choices.reduce((choices, choice) => {
@@ -35,7 +37,7 @@ app.post('/api/poll/create', (request, response) => {
     return choices;
   }, {})
 
-  const dbEntry = { question, choices, description };
+  const dbEntry = { question, choices, description, id };
 
   db.collection('polls').save(dbEntry, (error, result) => {
     if (error) {
