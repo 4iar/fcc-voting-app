@@ -59,6 +59,15 @@ app.get('/api/polls/view', (request, response) => {
 })
 
 app.get('/api/poll/:pollId/view', (request, response) => {
+  const id = request.params.pollId
+  
+  db.collection('polls').find({id}, {_id: 0}).toArray((error, result) => {
+    if (error) {
+      response.json({status: 'error', message: "failed to get polls from the database"})
+    } else if (result) {
+      response.json(result);
+    }
+  })
 })
 
 app.post('/api/poll/:id/delete', (request, response) => {
