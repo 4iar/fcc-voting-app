@@ -49,7 +49,7 @@ app.post('/api/poll/create', (request, response) => {
 })
 
 app.get('/api/polls/view', (request, response) => {
-  db.collection('polls').find(null, {_id: 0, id: 1, question: 1, description: 1, choices: 1}).toArray((error, result) => {
+  db.collection('polls').find(null, {_id: 0}).toArray((error, result) => {
     if (error) {
       response.json({status: 'error', message: "failed to get polls from the database"})
     } else if (result) {
@@ -58,8 +58,8 @@ app.get('/api/polls/view', (request, response) => {
   })
 })
 
-app.get('/api/poll/:pollId/view', (request, response) => {
-  const id = request.params.pollId
+app.get('/api/poll/:id/view', (request, response) => {
+  const id = request.params.id
   
   db.collection('polls').find({id}, {_id: 0}).toArray((error, result) => {
     if (error) {
