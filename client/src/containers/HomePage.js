@@ -26,22 +26,31 @@ export default class HomePage extends React.Component {
   }
 
   render() {
+    let pollsIndex;
+    if (!this.state.polls) {
+      pollsIndex = (
+        <h2>Loading</h2>
+      )
+    } else {
+      pollsIndex = this.state.polls.map((poll) => {
+        const url = '/poll/' + poll.id;
+        return (
+          <LinkContainer key={poll.id} to={{pathname: url}}>
+            <ListGroupItem header={poll.question}>
+              {poll.description}
+            </ListGroupItem>
+          </LinkContainer>
+        );
+      })
+    }
+
     return (
       <Grid>
         <Row>
           <Col mdOffset={2} md={8}>
             <div>
               <ListGroup>
-                {this.state.polls.map((poll) => {
-                  const url = '/poll/' + poll.id;
-                  return (
-                    <LinkContainer key={poll.id} to={{pathname: url}}>
-                      <ListGroupItem header={poll.question}>
-                        {poll.description}
-                      </ListGroupItem>
-                    </LinkContainer>
-                  );
-                })}
+                {pollsIndex}
               </ListGroup>
             </div>
           </Col>
