@@ -2,6 +2,7 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const bodyParser = require('body-parser')
+const _ = require('lodash');
 const generateRandomString = require('./utils/generateRandomString');
 
 
@@ -59,7 +60,7 @@ app.get('/api/polls/view', (request, response) => {
     if (error) {
       response.json({status: 'error', message: "failed to get polls from the database"})
     } else if (result) {
-      response.json(result);
+      response.json(_.keyBy(result, 'id'));
     }
   })
 })
