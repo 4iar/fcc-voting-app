@@ -70,7 +70,16 @@ app.get('/api/poll/:id/view', (request, response) => {
   })
 })
 
-app.post('/api/poll/:id/delete', (request, response) => {
+app.get('/api/poll/:id/delete', (request, response) => {
+  const id = request.params.id;
+
+  db.collection('polls').remove({id}, (error, result) => {
+    if (error) {
+      response.json({status: "error", message: "failed to delete the poll"});
+    } else if (result) {
+      response.json({status: "success", message: null});
+    }
+  })
 })
 
 app.post('/api/poll/:id/vote', (request, response) => {
