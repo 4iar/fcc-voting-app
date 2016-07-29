@@ -76,6 +76,20 @@ app.post('/api/poll/:id/delete', (request, response) => {
 app.post('/api/poll/:id/vote', (request, response) => {
   // add vote to the option
   // or create new option if it does not exist
+
+  const id = request.params.id;
+  const choice = request.body.choice;
+  const choiceKey = 'choices.' + choice;
+  let choicesObj = {};
+  choicesObj[choiceKey] = 1;
+
+  db.collection('polls').update({id}, {$inc: choicesObj}, (error, result) => {
+    if (error) {
+      response.json({status: 'error', message: "failed to vote"});
+    } else if (result) {
+      response.json({status: 'success', message: null});
+    }
+  })
 })
 
 MongoClient.connect(mongolabUri, (err, database) => {
