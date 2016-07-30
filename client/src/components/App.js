@@ -1,6 +1,7 @@
 import React from 'react';
 import {Navbar, NavItem, Nav} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import {LinkContainer} from 'react-router-bootstrap';
 import $ from 'jquery';
 
 import {ALL_POLLS_ENDPOINT} from '../constants/endpoints';
@@ -30,9 +31,11 @@ export default class App extends React.Component {
       <div>
         <Navbar inverse>
           <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">Voting App</a>
-            </Navbar.Brand>
+              <Navbar.Brand>
+                <LinkContainer to={{ pathname: '/polls'}}>
+                <a href="#">Voting App</a>
+                </LinkContainer>
+              </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
