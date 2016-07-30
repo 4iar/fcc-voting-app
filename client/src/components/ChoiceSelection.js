@@ -15,36 +15,64 @@ export default class ChoiceSelection extends React.Component {
     this.submitVoteEndpoint = BASE_URL + '/api/poll/' + this.props.pollId + '/vote';
 
     this.state = {
-      choice: ''
+      choice: '',
+      status: ''
     }
   }
-  
+
   logChange(choice) {
     this.setState({
       choice
     })
   }
-  
+
   handleSubmit(e) {
     e.preventDefault();  // stop redirection on form submit
+    this.setState({
+      status: 'loading'
+
+    });
+
     $.ajax({
       type: 'POST',
       url: this.submitVoteEndpoint,
       contentType: 'application/json',
       dataType: 'json',
-      data: JSON.stringify({'choice': this.state.choice})
+      data: JSON.stringify({'choice': this.state.choice}),
+      success: this.handleSubmitSuccess.bind(this),
+      error: this.handleSubmitError.bind(this)
     })
-      .done(function(data) {
-      })
       .fail(function(jqXhr) {
       });
+  }
+
+  handleSubmitSuccess(data) {
+    console.log(data);
+    if (data.status === "success") {
+      this.setState({
+        status: "voted"
+      });
+      // update chart here
+    }
+  }
+  
+  handleSubmitError() {
+    this.setState({
+      status: "failed"
+    })
   }
 
   render() {
     const options = this.props.choices.map((choice) => {
       return {value: choice, label: choice}
     });
-    
+
+    let buttonText = {
+      loading: 'Voting...',
+      voted: "Voted",
+      failed: "Connection error - try again"
+    }[this.state.status];
+
     return (
       <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
@@ -58,7 +86,9 @@ export default class ChoiceSelection extends React.Component {
             />
           </FormGroup>
           <FormGroup>
-            <Button disabled={!this.state.choice} type="submit">Submit</Button>
+            <Button disabled={!this.state.choice || "loading" === this.state.status || "voted" === this.state.status} type="submit">
+              {buttonText || "Vote"}
+            </Button>
           </FormGroup>
         </form>
       </div>
