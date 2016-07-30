@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Row, Grid, Col} from 'react-bootstrap';
+
 import PollChart from '../components/PollChart';
+
 
 function getState(state) {
   console.log(state.app.polls);
@@ -25,12 +28,17 @@ export default class PollPage extends React.Component {
 
   render() {
     return (
-      <div key={this.state.pollId}>
-        <PollChart rawData={this.state.choices} />
-        {this.state.description}
-        {this.state.question}
-        {this.state.pollId}
-      </div>
+      <Grid key={this.state.pollId}>
+        <Row>
+          <Col mdOffset={2} md={4}>
+            <h2>{this.state.question}</h2>
+            <h4>{this.state.description}</h4>
+          </Col>
+          <Col md={6}>
+            <PollChart rawData={this.state.choices} />
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
