@@ -49,13 +49,14 @@ export default class ChoiceSelection extends React.Component {
   handleSubmitSuccess(data) {
     console.log(data);
     if (data.status === "success") {
+      this.props.refresh()
       this.setState({
         status: "voted"
       });
       // update chart here
     }
   }
-  
+
   handleSubmitError() {
     this.setState({
       status: "failed"
