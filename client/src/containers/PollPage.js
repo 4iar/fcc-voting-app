@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PollChart from '../components/PollChart';
 
 function getState(state) {
   console.log(state.app.polls);
@@ -21,11 +22,11 @@ export default class PollPage extends React.Component {
       pollId: this.pollId
     };
   }
-  
+
   render() {
-    console.log(this.state)
     return (
       <div key={this.state.pollId}>
+        <PollChart rawData={this.state.choices} />
         {this.state.description}
         {this.state.question}
         {this.state.pollId}
