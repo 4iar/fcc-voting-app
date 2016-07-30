@@ -51,7 +51,7 @@ export default class ChoiceSelection extends React.Component {
           <FormGroup>
             <Select
               name="choice"
-              value="one"
+              value=""
               options={options}
               onChange={this.logChange.bind(this)}
               allowCreate={true}
