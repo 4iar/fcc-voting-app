@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navbar, NavItem, Nav} from 'react-bootstrap';
+import {Navbar, NavItem, Nav, Glyphicon} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {LinkContainer} from 'react-router-bootstrap';
 import $ from 'jquery';
@@ -40,7 +40,12 @@ export default class App extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavItem eventKey={1} href="#">Not logged in</NavItem>
+              <NavItem eventKey={1} href="#">
+                <LinkContainer to={{ pathname: '/newpoll'}}>
+                  <Glyphicon glyph="plus"/>
+                </LinkContainer>
+              </NavItem>
+              <NavItem eventKey={2} href="#">Not logged in</NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
