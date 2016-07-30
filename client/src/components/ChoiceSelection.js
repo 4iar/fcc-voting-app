@@ -14,11 +14,15 @@ export default class ChoiceSelection extends React.Component {
     // TODO: use endpoint constant -- is annoying because no easy string formatting...
     this.submitVoteEndpoint = BASE_URL + '/api/poll/' + this.props.pollId + '/vote';
 
-    this.choice = '';
+    this.state = {
+      choice: ''
+    }
   }
   
   logChange(choice) {
-    this.choice = choice;
+    this.setState({
+      choice
+    })
   }
   
   handleSubmit(e) {
@@ -28,7 +32,7 @@ export default class ChoiceSelection extends React.Component {
       url: this.submitVoteEndpoint,
       contentType: 'application/json',
       dataType: 'json',
-      data: JSON.stringify({'choice': this.choice})
+      data: JSON.stringify({'choice': this.state.choice})
     })
       .done(function(data) {
       })
@@ -54,7 +58,7 @@ export default class ChoiceSelection extends React.Component {
             />
           </FormGroup>
           <FormGroup>
-            <Button type="submit">Submit</Button>
+            <Button disabled={!this.state.choice} type="submit">Submit</Button>
           </FormGroup>
         </form>
       </div>
