@@ -79,7 +79,8 @@ export default class ChoiceSelection extends React.Component {
           <FormGroup>
             <Select
               name="choice"
-              value=""
+              value={this.state.choice}
+              disabled={"voted" === this.state.status}
               options={options}
               onChange={this.logChange.bind(this)}
               allowCreate={true}
