@@ -36,7 +36,7 @@ export default class PollChart extends React.Component {
         }
       },
       series: [{
-        name: 'Brands',
+        name: 'Count',
         colorByPoint: true,
         data
       }]
