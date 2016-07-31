@@ -41,7 +41,6 @@ export default class App extends React.Component {
     });
   }
 
-
   render() {
     return (
       <div>
@@ -61,7 +60,9 @@ export default class App extends React.Component {
                   <Glyphicon glyph="plus"/>
                 </LinkContainer>
               </NavItem>
-              <NavItem eventKey={2} href="#">{this.state.user || "Not logged in"}</NavItem>
+              <LinkContainer to={{ pathname: '/user/' + this.state.user }}>
+                <NavItem eventKey={2} href="#">{this.state.user || "Not logged in"}</NavItem>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
