@@ -2,10 +2,19 @@ import React from 'react';
 import {Button, Col, ControlLabel, Grid, Row, FormGroup, FormControl, HelpBlock} from 'react-bootstrap';
 import $ from 'jquery';
 import _ from 'lodash';
+import {connect} from 'react-redux';
 
 import {BASE_URL} from '../constants/endpoints';
 
 
+function getState(state) {
+  return {
+    user: state.app.user
+  };
+}
+
+
+@connect(getState)
 export default class CreatePollPage extends React.Component {
   constructor(props) {
     super(props);
@@ -24,13 +33,22 @@ export default class CreatePollPage extends React.Component {
 
     let form = this.state;
     form.choices = _.values(form.choices);
+    
+    const payload = {
+      poll: {
+        ...this.state,
+        user: this.props.user
+      }
+    };
+    
+    console.log(payload)
 
     $.ajax({
       type: 'POST',
       url: this.createPollEndpoint,
       contentType: 'application/json',
       dataType: 'json',
-      data: JSON.stringify({poll: this.state}),
+      data: JSON.stringify(payload),
       success: null,
       error: null
     });

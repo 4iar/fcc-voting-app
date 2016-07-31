@@ -8,6 +8,12 @@ export default function app(state = initialState.app, action) {
         polls: action.payload.polls
       }
     }
+    case 'SET_USER': {
+      return {
+        ...state,
+        user: action.payload.user
+      };
+    }
     default:
       return state;
   }

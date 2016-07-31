@@ -7,10 +7,21 @@ import $ from 'jquery';
 import {ALL_POLLS_ENDPOINT} from '../constants/endpoints';
 import {setPolls} from '../actions/appActions';
 
-@connect(null, {setPolls})
+function getState(state) {
+  return {
+    user: state.app.user
+  };
+}
+
+@connect(getState, {setPolls})
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      user: this.props.user
+    };
+
   }
 
   componentDidMount() {
@@ -24,6 +35,11 @@ export default class App extends React.Component {
     this.serverRequest.abort();
   }
 
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      user: newProps.user
+    });
+  }
 
 
   render() {
@@ -45,7 +61,7 @@ export default class App extends React.Component {
                   <Glyphicon glyph="plus"/>
                 </LinkContainer>
               </NavItem>
-              <NavItem eventKey={2} href="#">Not logged in</NavItem>
+              <NavItem eventKey={2} href="#">{this.state.user || "Not logged in"}</NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

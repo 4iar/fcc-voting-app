@@ -1,6 +1,7 @@
 const initialstate = {
   app: {
-    placeholder: 'yup'
+    placeholder: 'yup',
+    user: 'defaultuser'
   }
 };
 

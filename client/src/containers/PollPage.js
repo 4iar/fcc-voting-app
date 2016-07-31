@@ -27,10 +27,10 @@ export default class PollPage extends React.Component {
       description: this.props.polls[this.pollId].description,
       choices: this.props.polls[this.pollId].choices,
       question: this.props.polls[this.pollId].question,
+      user: this.props.polls[this.pollId].user,
       pollId: this.pollId
     };
   }
-
 
   updatePoll() {
     this.serverRequest = $.get(this.updateEndpoint, function (result) {
@@ -45,13 +45,16 @@ export default class PollPage extends React.Component {
       description: result.description,
       choices: result.choices,
       question: result.question,
+      user: result.user,
       pollId: this.pollId
     })
   }
 
   render() {
+    console.log(this.state.user);
     return (
       <Grid key={this.state.pollId}>
+        <h5>Poll created by {this.state.user}</h5>
         <Row>
           <Col mdOffset={2} md={4}>
             <h2>{this.state.question}</h2>
