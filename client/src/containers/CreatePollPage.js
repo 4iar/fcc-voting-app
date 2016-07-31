@@ -15,7 +15,7 @@ export default class CreatePollPage extends React.Component {
     this.state = {
         question: '',
         description: '',
-        choices: {}
+        choices: {0: '', 1: ''}
     };
   }
 
@@ -46,11 +46,20 @@ export default class CreatePollPage extends React.Component {
   }
 
   handleChoicesChange(choiceId, e) {
-    let newChoicesState = {...this.state.choices};
-    newChoicesState[choiceId] = e.target.value;
-    console.log(newChoicesState);
+    let newChoices = {...this.state.choices};
+    newChoices[choiceId] = e.target.value;
+
+    const allChoicesFilledIn = _.values(newChoices).reduce((prev, curr) => {
+      return prev && !!curr;
+    }, true)
+    // if all inputs are filled in (truthy) then we need to add a new one
+    // so the user can keep adding more choices
+    if (allChoicesFilledIn) {
+      newChoices[_.size(newChoices)] = '';
+    }
+
     this.setState({
-      choices: newChoicesState
+      choices: newChoices
     }, () => {console.log(this.state)});
   }
 
@@ -62,11 +71,11 @@ export default class CreatePollPage extends React.Component {
     }
   }
 
-  validateChoices(choiceIndex) {
+  validateChoices(choiceKey) {
     // TODO: refactor this
-    const choice = this.state.choices[choiceIndex]
+    const choice = this.state.choices[choiceKey]
     if (!choice) {
-      if (choiceIndex === 0 || choiceIndex === 1) {
+      if (choiceKey === "0" || choiceKey === "1") {
         return "error";
       } else {
         return "warning";
@@ -95,15 +104,15 @@ export default class CreatePollPage extends React.Component {
                 <FormControl onChange={this.handleNonChoicesChange.bind(this, 'description')} componentClass="textarea" placeholder="Description" />
               </FormGroup>
 
-              <FormGroup validationState={this.validateChoices(0)}>
-                <ControlLabel>Choices</ControlLabel>
-                <FormControl placeholder="choice 1" onChange={this.handleChoicesChange.bind(this, 0)} type="text" />
-              </FormGroup>
-
-              <FormGroup validationState={this.validateChoices(1)}>
-                <ControlLabel>Choices</ControlLabel>
-                <FormControl placeholder="choice 2" onChange={this.handleChoicesChange.bind(this, 1)} type="text" />
-              </FormGroup>
+              <ControlLabel>Choices</ControlLabel>
+              {_.keys(this.state.choices).map((i) => {
+                console.log(i)
+                return (
+                  <FormGroup validationState={this.validateChoices(i)}>
+                    <FormControl placeholder={"choice " + (Number(i) + 1)} onChange={this.handleChoicesChange.bind(this, i)} type="text" />
+                  </FormGroup>
+                )
+              })}
 
               <FormGroup>
                 <Button onClick={this.handleSubmit.bind(this)} type="submit">
