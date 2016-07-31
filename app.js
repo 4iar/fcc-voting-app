@@ -33,6 +33,21 @@ app.post('/api/user/create', (request, response) => {
   // register a new user
 })
 
+app.get('/api/user/:user/polls', (request, response) => {
+  const user = request.params.user;
+  console.log(user);
+
+  db.collection('polls').find({user}, {_id: 0}).toArray((error, result) => {
+    if (error) {
+      response.json({status: 'error', message: "failed to get polls from the database"})
+    } else if (result) {
+      response.json(result);
+    }
+  })
+  
+})
+
+
 app.post('/api/poll/create', (request, response) => {
   const poll = request.body.poll;
 
