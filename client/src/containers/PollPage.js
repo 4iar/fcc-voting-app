@@ -6,6 +6,7 @@ import $ from 'jquery';
 
 import PollChart from '../components/PollChart';
 import ChoiceSelection from '../components/ChoiceSelection';
+import DeletePoll from '../components/DeletePoll';
 import {BASE_URL} from '../constants/endpoints';
 
 
@@ -51,10 +52,10 @@ export default class PollPage extends React.Component {
   }
 
   render() {
-    console.log(this.state.user);
     return (
       <Grid key={this.state.pollId}>
         <h5>Poll created by {this.state.user}</h5>
+        <DeletePoll pollId={this.pollId} />
         <Row>
           <Col mdOffset={2} md={4}>
             <h2>{this.state.question}</h2>
