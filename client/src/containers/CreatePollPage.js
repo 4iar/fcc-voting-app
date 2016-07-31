@@ -22,7 +22,6 @@ export default class CreatePollPage extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this.state)
     let form = this.state;
     form.choices = _.values(form.choices);
 
@@ -38,10 +37,8 @@ export default class CreatePollPage extends React.Component {
   }
 
   handleNonChoicesChange(field, e) {
-    console.log(e);
-    let newState = {}
+    let newState = {};
     newState[field] = e.target.value;
-    console.log(newState);
     this.setState(newState);
   }
 
@@ -51,7 +48,7 @@ export default class CreatePollPage extends React.Component {
 
     const allChoicesFilledIn = _.values(newChoices).reduce((prev, curr) => {
       return prev && !!curr;
-    }, true)
+    }, true);
     // if all inputs are filled in (truthy) then we need to add a new one
     // so the user can keep adding more choices
     if (allChoicesFilledIn) {
@@ -60,7 +57,7 @@ export default class CreatePollPage extends React.Component {
 
     this.setState({
       choices: newChoices
-    }, () => {console.log(this.state)});
+    });
   }
 
   validateDescription() {
@@ -73,7 +70,7 @@ export default class CreatePollPage extends React.Component {
 
   validateChoices(choiceKey) {
     // TODO: refactor this
-    const choice = this.state.choices[choiceKey]
+    const choice = this.state.choices[choiceKey];
     if (!choice) {
       if (choiceKey === "0" || choiceKey === "1") {
         return "error";
@@ -106,12 +103,11 @@ export default class CreatePollPage extends React.Component {
 
               <ControlLabel>Choices</ControlLabel>
               {_.keys(this.state.choices).map((i) => {
-                console.log(i)
                 return (
-                  <FormGroup validationState={this.validateChoices(i)}>
+                  <FormGroup key={i} validationState={this.validateChoices(i)}>
                     <FormControl placeholder={"choice " + (Number(i) + 1)} onChange={this.handleChoicesChange.bind(this, i)} type="text" />
                   </FormGroup>
-                )
+                );
               })}
 
               <FormGroup>
