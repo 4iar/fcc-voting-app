@@ -1,17 +1,39 @@
 "use strict";
 const express = require('express');
 const mongodb = require('mongodb');
+const passport = require('passport')  
 const bodyParser = require('body-parser')
 const _ = require('lodash');
 const generateRandomString = require('./utils/generateRandomString');
+// This will configure Passport to use Auth0
+const strategy = require('./setup-passport');
+// Session and cookies middlewares to keep user logged in
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 
 const MongoClient = mongodb.MongoClient;
 const mongolabUri = process.env.MONGODB_URI;
 let db;
 const app = express();
+passport.use(strategy);
+
+passport.serializeUser(function(user, done) {
+  console.log("serialising user");
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  console.log("deserialising user");
+  done(null, user);
+});
 
 app.use(bodyParser.json({ extended: true }))
+
+app.use(cookieParser());
+app.use(session({ secret: process.env.AUTH0_CLIENT_SECRET, resave: false,  saveUninitialized: false }));
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -22,12 +44,29 @@ app.use(function(req, res, next) {
 
 const port = process.env.PORT || 5000; // let Heroku set the port
 
+
 app.get('/', (request, response) => {
-
-
-
   response.json({hello: "world"});
 })
+
+// Auth0 callback handler
+app.get('/callback',
+  passport.authenticate('auth0', { failureRedirect: '/url-if-something-fails' }),
+  function(request, response) {
+    console.log("authenticating");
+    if (!request.user) {
+      throw new Error('user null');
+    }
+    //response.redirect("/user");
+    response.json({status: "success"});
+  });
+
+app.get('/api/user', function (request, response) {
+  response.render('user', {
+    user: request.user
+  });
+});
+
 
 app.post('/api/user/create', (request, response) => {
   // register a new user
