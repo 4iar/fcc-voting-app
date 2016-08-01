@@ -42,7 +42,7 @@ export default class ChoiceSelection extends React.Component {
       success: this.handleSubmitSuccess.bind(this),
       error: this.handleSubmitError.bind(this)
     })
-      .fail(function(jqXhr) {
+      .fail(function() {
       });
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Col, ControlLabel, Grid, Row, FormGroup, FormControl, HelpBlock} from 'react-bootstrap';
+import {Button, Col, ControlLabel, Grid, Row, FormGroup, FormControl} from 'react-bootstrap';
 import $ from 'jquery';
 import _ from 'lodash';
 import {connect} from 'react-redux';
@@ -111,7 +111,6 @@ export default class CreatePollPage extends React.Component {
               <FormGroup validationState={this.validateDescription()}>
                 <ControlLabel>Question</ControlLabel>
                 <FormControl onChange={this.handleNonChoicesChange.bind(this, 'question')} type="text" />
-                {1 ? null : <HelpBlock>Validation placeholder</HelpBlock>}
               </FormGroup>
 
               <FormGroup>

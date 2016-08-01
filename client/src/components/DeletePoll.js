@@ -46,7 +46,7 @@ export default class DeletePoll extends React.Component {
     }
   }
 
-  handleDeleteError(data) {
+  handleDeleteError() {
     this.setState({
       error: "Failed to contact the server"
     })
