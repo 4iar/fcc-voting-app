@@ -19,7 +19,7 @@ export default class ChoiceSelection extends React.Component {
 
     let choice = '';
     let status = '';
-    if (voteStore[this.props.pollId]) {
+    if (voteStore && voteStore[this.props.pollId]) {
       choice = voteStore[this.props.pollId];
       status = 'voted';
     }
