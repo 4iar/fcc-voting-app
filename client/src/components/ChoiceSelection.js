@@ -14,10 +14,20 @@ export default class ChoiceSelection extends React.Component {
     // TODO: use endpoint constant -- is annoying because no easy string formatting...
     this.submitVoteEndpoint = BASE_URL + '/api/poll/' + this.props.pollId + '/vote';
 
-    this.state = {
-      choice: '',
-      status: ''
+    this.localStorageKey = 'votes'
+    const voteStore = JSON.parse(localStorage.getItem(this.localStorageKey));
+
+    let choice = '';
+    let status = '';
+    if (voteStore[this.props.pollId]) {
+      choice = voteStore[this.props.pollId];
+      status = 'voted';
     }
+
+    this.state = {
+      status,
+      choice,
+    };
   }
 
   logChange(choice) {
@@ -30,7 +40,6 @@ export default class ChoiceSelection extends React.Component {
     e.preventDefault();  // stop redirection on form submit
     this.setState({
       status: 'loading'
-
     });
 
     $.ajax({
@@ -53,6 +62,13 @@ export default class ChoiceSelection extends React.Component {
       this.setState({
         status: "voted"
       });
+
+      let voteStore = JSON.parse(localStorage.getItem(this.localStorageKey));
+      if (!voteStore) {
+        voteStore = {};
+      }
+      voteStore[this.props.pollId] = this.state.choice;
+      localStorage.setItem(this.localStorageKey, JSON.stringify(voteStore));
       // update chart here
     }
   }
@@ -94,8 +110,6 @@ export default class ChoiceSelection extends React.Component {
           </FormGroup>
         </form>
       </div>
-
-
     )
   }
 }
