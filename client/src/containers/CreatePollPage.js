@@ -52,7 +52,7 @@ export default class CreatePollPage extends React.Component {
       success: function(data) {
         console.log("redirecting");
         if (data.status === "success") {
-          window.location.replace("https://voting-app-4iar.com" + "/poll/" + data.id)
+          window.location.replace(BASE_URL + "/poll/" + data.id)
         }
       },
       error: null
