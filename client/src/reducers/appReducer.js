@@ -14,6 +14,20 @@ export default function app(state = initialState.app, action) {
         user: action.payload.user
       };
     }
+    case 'LOGIN': {
+      return {
+        ...state,
+        user: action.payload.user,
+        id: action.payload.id
+      };
+    }
+    case 'LOGOUT': {
+      return {
+        ...state,
+        user: '',
+        id: ''
+      };
+    }
     default:
       return state;
   }

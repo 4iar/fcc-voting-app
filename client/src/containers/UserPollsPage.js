@@ -18,7 +18,7 @@ export default class UserPollsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.serverRequest = $.get(this.userPollsEndpoint, function (result) {
+    this.requestAllPolls = $.get(this.userPollsEndpoint, function (result) {
       this.setState({
         polls: result
       }, console.log(this.state));
@@ -27,7 +27,7 @@ export default class UserPollsPage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.serverRequest.abort();
+    this.requestAllPolls.abort();
   }
 
   render() {

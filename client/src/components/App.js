@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import {LinkContainer} from 'react-router-bootstrap';
 import $ from 'jquery';
 
-import {ALL_POLLS_ENDPOINT, BASE_URL} from '../constants/endpoints';
-import {setPolls} from '../actions/appActions';
+import {ALL_POLLS_ENDPOINT, BASE_URL, USER_INFO_ENDPOINT} from '../constants/endpoints';
+import {setPolls, login, logout} from '../actions/appActions';
 
 
 function getState(state) {
@@ -15,7 +15,7 @@ function getState(state) {
   };
 }
 
-@connect(getState, {setPolls})
+@connect(getState, {setPolls, login, logout})
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -27,14 +27,23 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.serverRequest = $.get(ALL_POLLS_ENDPOINT, function (result) {
+    this.requestAllPolls = $.get(ALL_POLLS_ENDPOINT, function (result) {
       console.log(result);
       this.props.setPolls(result);
+    }.bind(this));
+
+    this.requestUserInfo = $.get(USER_INFO_ENDPOINT, function (result) {
+      if (result.status === "success") {
+        this.props.login(result.user, result.id);
+      } else {
+        this.props.logout;
+      }
     }.bind(this));
   }
 
   componentWillUnmount() {
-    this.serverRequest.abort();
+    this.requestAllPolls.abort();
+    this.requestUserInfo.abort();
   }
 
   componentWillReceiveProps(newProps) {
@@ -53,7 +62,7 @@ export default class App extends React.Component {
         }
       }
     });
-    
+
     lock.show();
   }
 

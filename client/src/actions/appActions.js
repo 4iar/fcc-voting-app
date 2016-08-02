@@ -7,11 +7,19 @@ export function setPolls(polls) {
   }
 }
 
-export function setUser(user) {
+export function login(user, id) {
   return {
-    type: 'SET_USER',
+    type: 'LOGIN',
     payload: {
-      user
+      user,
+      id
     }
+  };
+}
+
+export function logout() {
+  console.log("got an action to logout")
+  return {
+    type: 'LOGOUT'
   };
 }

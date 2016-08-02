@@ -39,7 +39,7 @@ export default class PollPage extends React.Component {
   }
 
   updatePoll() {
-    this.serverRequest = $.get(this.updateEndpoint, function (result) {
+    this.requestAllPolls = $.get(this.updateEndpoint, function (result) {
       this.setPolls(result[0]);
     }.bind(this));
   }
