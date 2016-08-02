@@ -214,6 +214,10 @@ app.get('/user', function (req, res) {
   });
 });
 
+app.get('*', function (req, res) {
+  res.sendFile('index.html');
+});
+
 
 MongoClient.connect(mongolabUri, (err, database) => {
   if (err) return console.log(err)
