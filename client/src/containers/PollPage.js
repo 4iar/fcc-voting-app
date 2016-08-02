@@ -63,7 +63,7 @@ export default class PollPage extends React.Component {
     let pollPageBody
     let votedFor = null;
     // TODO: make less silly
-    if (this.state.voteHistory && this.props.userId) {
+    if (this.state && this.state.voteHistory && this.props.userId) {
       votedFor = this.state.voteHistory[this.props.userId] ? this.state.voteHistory[this.props.userId] : null
       console.log(votedFor)
     }
