@@ -13,7 +13,8 @@ import {BASE_URL} from '../constants/endpoints';
 function getState(state) {
   return {
     polls: state.app.polls,
-    userId: state.app.id
+    userId: state.app.id,
+    user: state.app.user
   };
 }
 
@@ -71,7 +72,7 @@ export default class PollPage extends React.Component {
             <Col mdOffset={2} md={4}>
               <h2>{this.state.question}</h2>
               <h4>{this.state.description}</h4>
-              <ChoiceSelection refresh={this.updatePoll.bind(this)} pollId={this.state.pollId} choices={_.keys(this.state.choices)} />
+              <ChoiceSelection loggedIn={!!this.props.user} refresh={this.updatePoll.bind(this)} pollId={this.state.pollId} choices={_.keys(this.state.choices)} />
             </Col>
             <Col md={6}>
               <PollChart rawData={this.state.choices} />

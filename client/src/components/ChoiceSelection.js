@@ -15,6 +15,7 @@ export default class ChoiceSelection extends React.Component {
     this.submitVoteEndpoint = BASE_URL + '/api/poll/' + this.props.pollId + '/vote';
 
     this.localStorageKey = 'votes'
+    
     const voteStore = JSON.parse(localStorage.getItem(this.localStorageKey));
 
     let choice = '';
@@ -100,7 +101,7 @@ export default class ChoiceSelection extends React.Component {
               disabled={"voted" === this.state.status}
               options={options}
               onChange={this.logChange.bind(this)}
-              allowCreate={true}
+              allowCreate={this.props.loggedIn}
             />
           </FormGroup>
           <FormGroup>
