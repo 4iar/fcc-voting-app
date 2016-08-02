@@ -8,7 +8,7 @@ import {BASE_URL} from '../constants/endpoints';
 
 function getState(state) {
   return {
-    userId: state.app.userId,
+    id: state.app.id,
     user: state.app.user
   };
 }
@@ -23,7 +23,7 @@ export default class UserPollsPage extends React.Component {
       polls: []
     }
 
-    this.userPollsEndpoint = BASE_URL + '/api/user/' + this.props.userId + '/polls';
+    this.userPollsEndpoint = BASE_URL + '/api/user/' + this.props.id + '/polls';
   }
 
   componentDidMount() {
