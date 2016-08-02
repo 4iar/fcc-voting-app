@@ -12,7 +12,8 @@ import {BASE_URL} from '../constants/endpoints';
 
 function getState(state) {
   return {
-    polls: state.app.polls
+    polls: state.app.polls,
+    userId: state.app.id
   };
 }
 
@@ -29,7 +30,9 @@ export default class PollPage extends React.Component {
         choices: this.props.polls[this.pollId].choices,
         question: this.props.polls[this.pollId].question,
         user: this.props.polls[this.pollId].user,
-        pollId: this.pollId
+        voteHistory: this.props.polls[this.pollId].voteHistory,
+        createdByUserId: this.props.polls[this.pollId].userId,
+        pollId: this.pollId,
       };
     }
   }
@@ -49,6 +52,8 @@ export default class PollPage extends React.Component {
       choices: result.choices,
       question: result.question,
       user: result.user,
+      voteHistory: result.user,
+      createdByUserId: result.userId,
       pollId: this.pollId
     })
   }
@@ -59,7 +64,9 @@ export default class PollPage extends React.Component {
       pollPageBody = (
         <Grid key={this.state.pollId}>
           <h5>Poll created by {this.state.user}</h5>
-          <DeletePoll pollId={this.pollId} />
+          {this.props.userId === this.state.createdByUserId &&
+           <DeletePoll pollId={this.pollId} />
+          }
           <Row>
             <Col mdOffset={2} md={4}>
               <h2>{this.state.question}</h2>

@@ -181,18 +181,30 @@ app.post('/api/poll/:id/vote', (request, response) => {
   // add vote to the option
   // or create new option if it does not exist
 
+  const userId = request.user ? request.user.id : null;
   const id = request.params.id;
   const choice = request.body.choice;
   const choiceKey = 'choices.' + choice;
   let choicesObj = {};
   choicesObj[choiceKey] = 1;
 
-  db.collection('polls').update({id}, {$inc: choicesObj}, (error, result) => {
-    if (error) {
-      response.json({status: 'error', message: "failed to vote"});
-    } else if (result) {
-      response.json({status: 'success', message: null});
+  db.collection('polls').findOne({id}, (error, result) => {
+    // TODO: find a less silly way to do this and improve error handling
+    let voteHistory = result.voteHistory ? result.voteHistory : {};
+    if (userId) {
+      if (voteHistory[userId] !== undefined) {
+        response.json({status: 'error', message: "user has voted once already"});
+      } else {
+        voteHistory[userId] = choice;
+      }
     }
+    db.collection('polls').update({id}, {$inc: choicesObj, $set: {voteHistory: voteHistory}}, (error, result) => {
+      if (error) {
+        response.json({status: 'error', message: "failed to vote"});
+      } else if (result) {
+        response.json({status: 'success', message: null});
+      }
+    })
   })
 })
 
