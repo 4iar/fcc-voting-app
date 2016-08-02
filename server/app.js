@@ -57,8 +57,7 @@ app.get('/callback',
     if (!request.user) {
       throw new Error('user null');
     }
-    //response.redirect("/user");
-    response.json({status: "success"});
+    response.redirect("https://voting-app-4iar.herokuapp.com" + response.params.currentUrl);
   });
 
 app.get('/api/user', function (request, response) {
