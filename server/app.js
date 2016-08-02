@@ -100,7 +100,7 @@ app.get('/api/user/:userId/polls', (request, response) => {
 app.post('/api/poll/create', (request, response) => {
 
   if (!request.isAuthenticated()) {
-    response.redirect('login');
+    response.json({status: 'error', message: 'not logged in'});
   }
 
   const poll = request.body.poll;
