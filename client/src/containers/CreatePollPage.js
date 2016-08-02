@@ -49,7 +49,12 @@ export default class CreatePollPage extends React.Component {
       contentType: 'application/json',
       dataType: 'json',
       data: JSON.stringify(payload),
-      success: null,
+      success: function(data) {
+        console.log("redirecting");
+        if (data.status === "success") {
+          window.location.replace("https://voting-app-4iar.com" + "/poll/" + data.id)
+        }
+      },
       error: null
     });
   }
