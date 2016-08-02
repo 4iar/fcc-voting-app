@@ -71,9 +71,7 @@ export default class App extends React.Component {
         <Navbar inverse>
           <Navbar.Header>
               <Navbar.Brand>
-                <LinkContainer to={{ pathname: '/polls'}}>
-                <a href="#">Voting App</a>
-                </LinkContainer>
+                <a href={BASE_URL + "/polls"}>Voting App</a>
               </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
