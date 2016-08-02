@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(session({ secret: process.env.AUTH0_CLIENT_SECRET, resave: false,  saveUninitialized: false }));
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 
 app.use(function(req, res, next) {
