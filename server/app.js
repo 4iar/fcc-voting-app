@@ -152,14 +152,29 @@ app.get('/api/poll/:id/view', (request, response) => {
 })
 
 app.get('/api/poll/:id/delete', (request, response) => {
+  if (!request.isAuthenticated()) {
+    response.redirect('login');
+  }
+  
   const id = request.params.id;
-
-  db.collection('polls').remove({id}, (error, result) => {
+  const userId = request.user.id;
+  
+  db.collection('polls').findOne({id}, (error, result) => {
     if (error) {
       response.json({status: "error", message: "failed to delete the poll"});
     } else if (result) {
-      response.json({status: "success", message: null});
-    }
+      if (result.userId === userId) {
+        db.collection('polls').remove({id}, (error, result) => {
+          if (error) {
+            response.json({status: "error", message: "failed to delete the poll"});
+          } else if (result) {
+            response.json({status: "success", message: null});
+          }
+        })
+      } else {
+        response.json({status: "error", message: "you cannot delete a poll that wasn't created by you!"})
+      }
+    }  
   })
 })
 
