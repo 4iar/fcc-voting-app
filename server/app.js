@@ -67,6 +67,22 @@ app.get('/api/user', function (request, response) {
   });
 });
 
+app.get('/api/auth/currentuser', (request, response) {
+  const user = request.user;
+  if (!user) {
+    response.json({
+      status: "error",
+      message: "not logged in"
+    });
+  } else {
+    response.json({
+      status: "success",
+      message: null,
+      id: user.id,
+      name: user.name.familyName + ' ' + user.name.givenName
+    });
+  }
+});
 
 app.post('/api/user/create', (request, response) => {
   // register a new user
