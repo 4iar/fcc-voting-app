@@ -13,6 +13,6 @@ export default (
     <Route path="polls" component={HomePage}/>
     <Route path="poll/:pollId" component={PollPage}/>
     <Route path="newpoll" component={CreatePollPage}/>
-    <Route path="user/:user" component={UserPollsPage}/>
+    <Route path="mypolls" component={UserPollsPage}/>
   </Route>
 );

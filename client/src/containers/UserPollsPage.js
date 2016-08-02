@@ -2,19 +2,28 @@ import React from 'react';
 import {Col, Grid, Row, ListGroup, ListGroupItem, PageHeader} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import $ from 'jquery';
+import {connect} from 'react-redux';
 
 import {BASE_URL} from '../constants/endpoints';
 
+function getState(state) {
+  return {
+    userId: state.app.userId,
+    user: state.app.user
+  };
+}
+
+
+@connect(getState)
 export default class UserPollsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.user = this.props.params.user;
     this.state = {
       polls: []
     }
 
-    this.userPollsEndpoint = BASE_URL + '/api/user/' + this.user + '/polls';
+    this.userPollsEndpoint = BASE_URL + '/api/user/' + this.props.userId + '/polls';
   }
 
   componentDidMount() {
@@ -23,7 +32,6 @@ export default class UserPollsPage extends React.Component {
         polls: result
       }, console.log(this.state));
     }.bind(this));
-    
   }
 
   componentWillUnmount() {
@@ -56,7 +64,7 @@ export default class UserPollsPage extends React.Component {
         <br/>
         <Row>
           <Col mdOffset={2} md={8}>
-            <PageHeader>Polls created by {this.user}</PageHeader>
+            <PageHeader>Polls created by {this.props.user}</PageHeader>
             <div>
               <ListGroup>
                 {pollsIndex}

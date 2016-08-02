@@ -85,7 +85,7 @@ export default class App extends React.Component {
                   <Glyphicon glyph="plus"/>
                 </LinkContainer>
               </NavItem>
-              <LinkContainer to={{ pathname: '/user/' + this.state.user }}>
+              <LinkContainer to={{ pathname: '/mypolls' }}>
                 <NavItem eventKey={2} href="#">{this.state.user || "Not logged in"}</NavItem>
               </LinkContainer>
               <NavItem onClick={this.showLogin.bind(this)} eventKey={3}>Login button placeholder</NavItem>
