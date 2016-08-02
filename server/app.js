@@ -67,7 +67,7 @@ app.get('/api/user', function (request, response) {
   });
 });
 
-app.get('/api/auth/currentuser', (request, response) {
+app.get('/api/auth/currentuser', (request, response) => {
   const user = request.user;
   if (!user) {
     response.json({
