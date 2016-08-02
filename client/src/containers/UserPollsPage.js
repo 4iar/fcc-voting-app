@@ -21,7 +21,7 @@ export default class UserPollsPage extends React.Component {
 
     this.state = {
       polls: []
-    }
+    };
 
     this.userPollsEndpoint = BASE_URL + '/api/user/' + this.props.id + '/polls';
   }
@@ -30,7 +30,7 @@ export default class UserPollsPage extends React.Component {
     this.requestAllPolls = $.get(this.userPollsEndpoint, function (result) {
       this.setState({
         polls: result
-      }, console.log(this.state));
+      });
     }.bind(this));
   }
 
@@ -44,7 +44,7 @@ export default class UserPollsPage extends React.Component {
     if (!this.state.polls) {
       pollsIndex = (
         <h2>Loading</h2>
-      )
+      );
     } else {
       pollsIndex = Object.keys(this.state.polls).map((pollId) => {
         const poll = this.state.polls[pollId];
@@ -56,7 +56,7 @@ export default class UserPollsPage extends React.Component {
             </ListGroupItem>
           </LinkContainer>
         );
-      })
+      });
     }
 
     return (

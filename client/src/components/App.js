@@ -28,7 +28,6 @@ export default class App extends React.Component {
 
   componentDidMount() {
     this.requestAllPolls = $.get(ALL_POLLS_ENDPOINT, function (result) {
-      console.log(result);
       this.props.setPolls(result);
     }.bind(this));
 
@@ -41,17 +40,17 @@ export default class App extends React.Component {
     }.bind(this));
   }
 
-  componentWillUnmount() {
-    this.requestAllPolls.abort();
-    this.requestUserInfo.abort();
-  }
-
   componentWillReceiveProps(newProps) {
     this.setState({
       user: newProps.user
     });
   }
 
+  componentWillUnmount() {
+    this.requestAllPolls.abort();
+    this.requestUserInfo.abort();
+  }
+  
   showLogin() {
     const lock = new Auth0Lock('Y0HjKDY8epVefNvJlwcUfvsykX9jckfb', 'fcc-voting-app-4iar.auth0.com', {
       auth: {

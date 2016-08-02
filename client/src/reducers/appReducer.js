@@ -6,7 +6,7 @@ export default function app(state = initialState.app, action) {
       return {
         ...state,
         polls: action.payload.polls
-      }
+      };
     }
     case 'SET_USER': {
       return {

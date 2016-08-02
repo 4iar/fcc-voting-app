@@ -56,16 +56,15 @@ export default class PollPage extends React.Component {
       voteHistory: result.user,
       createdByUserId: result.userId,
       pollId: this.pollId
-    })
+    });
   }
 
   render() {
-    let pollPageBody
+    let pollPageBody;
     let votedFor = null;
     // TODO: make less silly
     if (this.state && this.state.voteHistory && this.props.userId) {
-      votedFor = this.state.voteHistory[this.props.userId] ? this.state.voteHistory[this.props.userId] : null
-      console.log(votedFor)
+      votedFor = this.state.voteHistory[this.props.userId] ? this.state.voteHistory[this.props.userId] : null;
     }
 
     if (this.props.polls) {
@@ -86,14 +85,14 @@ export default class PollPage extends React.Component {
             </Col>
           </Row>
         </Grid>
-      )
+      );
     }
 
     return (
       <div>
         {this.props.polls ? pollPageBody : "not loaded"}
       </div>
-    )
+    );
   }
 }
 

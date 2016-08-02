@@ -16,7 +16,7 @@ export default class HomePage extends React.Component {
 
     this.state = {
       polls: this.props.polls
-    }
+    };
   }
 
   componentWillReceiveProps(newProps) {
@@ -30,7 +30,7 @@ export default class HomePage extends React.Component {
     if (!this.state.polls) {
       pollsIndex = (
         <h2>Loading</h2>
-      )
+      );
     } else {
       pollsIndex = Object.keys(this.state.polls).map((pollId) => {
         const poll = this.state.polls[pollId];
@@ -42,7 +42,7 @@ export default class HomePage extends React.Component {
             </ListGroupItem>
           </LinkContainer>
         );
-      })
+      });
     }
 
     return (

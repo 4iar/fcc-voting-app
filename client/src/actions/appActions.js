@@ -4,7 +4,7 @@ export function setPolls(polls) {
     payload: {
       polls
     }
-  }
+  };
 }
 
 export function login(user, id) {
@@ -18,7 +18,6 @@ export function login(user, id) {
 }
 
 export function logout() {
-  console.log("got an action to logout")
   return {
     type: 'LOGOUT'
   };

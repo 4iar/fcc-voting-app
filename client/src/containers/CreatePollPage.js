@@ -41,7 +41,6 @@ export default class CreatePollPage extends React.Component {
       }
     };
     
-    console.log(payload)
 
     $.ajax({
       type: 'POST',
@@ -50,9 +49,8 @@ export default class CreatePollPage extends React.Component {
       dataType: 'json',
       data: JSON.stringify(payload),
       success: function(data) {
-        console.log("redirecting");
         if (data.status === "success") {
-          window.location.replace(BASE_URL + "/poll/" + data.id)
+          window.location.replace(BASE_URL + "/poll/" + data.id);
         }
       },
       error: null

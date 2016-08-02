@@ -49,12 +49,12 @@ export default class DeletePoll extends React.Component {
   handleDeleteError() {
     this.setState({
       error: "Failed to contact the server"
-    })
+    });
   }
 
   render() {
-    const pollDeleted = <h1>Poll has been deleted</h1>
-    const error = <Panel header="Error :(" bsStyle="danger">{this.state.error}</Panel>
+    const pollDeleted = <h1>Poll has been deleted</h1>;
+    const error = <Panel header="Error :(" bsStyle="danger">{this.state.error}</Panel>;
 
     return (
       <div>

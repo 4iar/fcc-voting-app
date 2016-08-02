@@ -14,7 +14,7 @@ export default class ChoiceSelection extends React.Component {
     // TODO: use endpoint constant -- is annoying because no easy string formatting...
     this.submitVoteEndpoint = BASE_URL + '/api/poll/' + this.props.pollId + '/vote';
 
-    this.localStorageKey = 'votes'
+    this.localStorageKey = 'votes';
 
     
     let choice = '';
@@ -40,7 +40,7 @@ export default class ChoiceSelection extends React.Component {
   logChange(choice) {
     this.setState({
       choice
-    })
+    });
   }
 
   handleSubmit(e) {
@@ -63,9 +63,8 @@ export default class ChoiceSelection extends React.Component {
   }
 
   handleSubmitSuccess(data) {
-    console.log(data);
     if (data.status === "success") {
-      this.props.refresh()
+      this.props.refresh();
       this.setState({
         status: "voted"
       });
@@ -83,12 +82,12 @@ export default class ChoiceSelection extends React.Component {
   handleSubmitError() {
     this.setState({
       status: "failed"
-    })
+    });
   }
 
   render() {
     const options = this.props.choices.map((choice) => {
-      return {value: choice, label: choice}
+      return {value: choice, label: choice};
     });
 
     let buttonText = {
@@ -117,6 +116,6 @@ export default class ChoiceSelection extends React.Component {
           </FormGroup>
         </form>
       </div>
-    )
+    );
   }
 }
