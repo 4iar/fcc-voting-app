@@ -86,7 +86,6 @@ app.post('/api/user/create', (request, response) => {
 
 app.get('/api/user/:userId/polls', (request, response) => {
   const userId = request.params.userId;
-  console.log(user);
 
   db.collection('polls').find({userId}, {_id: 0}).toArray((error, result) => {
     if (error) {
@@ -112,12 +111,13 @@ app.post('/api/poll/create', (request, response) => {
   const userId = u.id;
   const question = poll.question;
   const description = poll.description;
+  const voteHistory = {};
   const choices = poll.choices.reduce((choices, choice) => {
     choices[choice] = 0;
     return choices;
   }, {})
 
-  const dbEntry = { question, choices, description, id, user, userId };
+  const dbEntry = { question, choices, description, id, user, userId, voteHistory };
 
   db.collection('polls').save(dbEntry, (error, result) => {
     if (error) {
