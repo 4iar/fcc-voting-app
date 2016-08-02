@@ -16,7 +16,6 @@ const MongoClient = mongodb.MongoClient;
 const mongolabUri = process.env.MONGODB_URI;
 let db;
 const app = express();
-passport.use(strategy);
 
 passport.serializeUser(function(user, done) {
   console.log("serialising user");
@@ -28,6 +27,7 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+passport.use(strategy);
 app.use(bodyParser.json({ extended: true }))
 
 app.use(cookieParser());
