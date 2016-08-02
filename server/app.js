@@ -134,7 +134,7 @@ app.get('/api/poll/:id/view', (request, response) => {
 
 app.get('/api/poll/:id/delete', (request, response) => {
   if (!request.isAuthenticated()) {
-    response.redirect('login');
+    response.json({status: 'error', message: 'not logged in'});
   }
 
   const id = request.params.id;
