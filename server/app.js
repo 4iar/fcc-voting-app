@@ -123,7 +123,7 @@ app.post('/api/poll/create', (request, response) => {
     if (error) {
       response.json({status: 'error', message: "boooo"})
     } else if (result) {
-      response.json({status: 'success', message: null})
+      response.json({status: 'success', message: null, id})
     }
   })
 })
@@ -202,7 +202,7 @@ app.post('/api/poll/:id/vote', (request, response) => {
       if (error) {
         response.json({status: 'error', message: "failed to vote"});
       } else if (result) {
-        response.json({status: 'success', message: null, id});
+        response.json({status: 'success', message: null});
       }
     })
   })
