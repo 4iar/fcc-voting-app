@@ -5,12 +5,10 @@ const passport = require('passport')
 const bodyParser = require('body-parser')
 const _ = require('lodash');
 const generateRandomString = require('./utils/generateRandomString');
-// This will configure Passport to use Auth0
 const strategy = require('./setup-passport');
 // Session and cookies middlewares to keep user logged in
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-
 
 const MongoClient = mongodb.MongoClient;
 const mongolabUri = process.env.MONGODB_URI;
@@ -18,31 +16,26 @@ let db;
 const app = express();
 
 passport.serializeUser(function(user, done) {
-  console.log("serialising user");
   done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-  console.log("deserialising user");
   done(null, user);
 });
 
 passport.use(strategy);
-app.use(bodyParser.json({ extended: true }))
 
+app.use(bodyParser.json({ extended: true }))
 app.use(cookieParser());
 app.use(session({ secret: process.env.AUTH0_CLIENT_SECRET, resave: false,  saveUninitialized: false }));
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.static(__dirname + '/public'));
-
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
 
 const port = process.env.PORT || 5000; // let Heroku set the port
 
@@ -56,12 +49,6 @@ app.get('/callback',
     }
     response.redirect("https://voting-app-4iar.herokuapp.com");
   });
-
-app.get('/api/user', function (request, response) {
-  response.render('user', {
-    user: request.user
-  });
-});
 
 app.get('/api/auth/currentuser', (request, response) => {
   const user = request.user;
@@ -80,10 +67,6 @@ app.get('/api/auth/currentuser', (request, response) => {
   }
 });
 
-app.post('/api/user/create', (request, response) => {
-  // register a new user
-})
-
 app.get('/api/user/:userId/polls', (request, response) => {
   const userId = request.params.userId;
 
@@ -98,7 +81,6 @@ app.get('/api/user/:userId/polls', (request, response) => {
 
 
 app.post('/api/poll/create', (request, response) => {
-
   if (!request.isAuthenticated()) {
     response.json({status: 'error', message: 'not logged in'});
   }
@@ -140,7 +122,7 @@ app.get('/api/polls/view', (request, response) => {
 
 app.get('/api/poll/:id/view', (request, response) => {
   const id = request.params.id
-  
+
   db.collection('polls').find({id}, {_id: 0}).toArray((error, result) => {
     if (error) {
       response.json({status: 'error', message: "failed to get polls from the database"})
@@ -154,10 +136,10 @@ app.get('/api/poll/:id/delete', (request, response) => {
   if (!request.isAuthenticated()) {
     response.redirect('login');
   }
-  
+
   const id = request.params.id;
   const userId = request.user.id;
-  
+
   db.collection('polls').findOne({id}, (error, result) => {
     if (error) {
       response.json({status: "error", message: "failed to delete the poll"});
@@ -173,14 +155,11 @@ app.get('/api/poll/:id/delete', (request, response) => {
       } else {
         response.json({status: "error", message: "you cannot delete a poll that wasn't created by you!"})
       }
-    }  
+    }
   })
 })
 
 app.post('/api/poll/:id/vote', (request, response) => {
-  // add vote to the option
-  // or create new option if it does not exist
-
   const userId = request.user ? request.user.id : null;
   const id = request.params.id;
   const choice = request.body.choice;
@@ -207,12 +186,6 @@ app.post('/api/poll/:id/vote', (request, response) => {
     })
   })
 })
-
-app.get('/user', function (req, res) {
-  res.render('user', {
-    user: req.user
-  });
-});
 
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/index.html');
