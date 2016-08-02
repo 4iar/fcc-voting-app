@@ -77,11 +77,13 @@ export default class App extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavItem eventKey={1} href="#">
+              {this.state.user &&
+              <NavItem eventKey={1}>
                 <LinkContainer to={{ pathname: '/newpoll'}}>
                   <Glyphicon glyph="plus"/>
                 </LinkContainer>
               </NavItem>
+              }
               {!this.state.user && 
                 <NavItem onClick={this.showLogin.bind(this)} eventKey={2}>Login</NavItem>
               }
