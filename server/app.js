@@ -34,6 +34,8 @@ app.use(cookieParser());
 app.use(session({ secret: process.env.AUTH0_CLIENT_SECRET, resave: false,  saveUninitialized: false }));
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(express.static('public'));
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -43,11 +45,6 @@ app.use(function(req, res, next) {
 
 
 const port = process.env.PORT || 5000; // let Heroku set the port
-
-
-app.get('/', (request, response) => {
-  response.json({hello: "world"});
-})
 
 // Auth0 callback handler
 app.get('/callback',
@@ -78,7 +75,7 @@ app.get('/api/auth/currentuser', (request, response) => {
       status: "success",
       message: null,
       id: user.id,
-      name: user.name.familyName + ' ' + user.name.givenName
+      user: user.displayName
     });
   }
 });
@@ -112,8 +109,8 @@ app.post('/api/poll/create', (request, response) => {
   const u = request.user;
 
   const id = generateRandomString();
-  const user = u.name.familyName + ' ' + u.name.givenName;
-  const userId = uesr.id;
+  const user = u.displayName;
+  const userId = u.id;
   const question = poll.question;
   const description = poll.description;
   const choices = poll.choices.reduce((choices, choice) => {
