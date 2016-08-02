@@ -103,10 +103,17 @@ app.get('/api/user/:user/polls', (request, response) => {
 
 
 app.post('/api/poll/create', (request, response) => {
+
+  if (!request.isAuthenticated()) {
+    response.redirect('login');
+  }
+
   const poll = request.body.poll;
+  const u = request.user;
 
   const id = generateRandomString();
-  const user = poll.user;
+  const user = u.name.familyName + ' ' + u.name.givenName;
+  const userId = uesr.id;
   const question = poll.question;
   const description = poll.description;
   const choices = poll.choices.reduce((choices, choice) => {
@@ -114,7 +121,7 @@ app.post('/api/poll/create', (request, response) => {
     return choices;
   }, {})
 
-  const dbEntry = { question, choices, description, id, user };
+  const dbEntry = { question, choices, description, id, user, userId };
 
   db.collection('polls').save(dbEntry, (error, result) => {
     if (error) {
