@@ -72,7 +72,7 @@ export default class PollPage extends React.Component {
             <Col mdOffset={2} md={4}>
               <h2>{this.state.question}</h2>
               <h4>{this.state.description}</h4>
-              <ChoiceSelection loggedIn={!!this.props.user} refresh={this.updatePoll.bind(this)} pollId={this.state.pollId} choices={_.keys(this.state.choices)} />
+              <ChoiceSelection votedFor={this.state.voteHistory[this.props.userId] ? this.state.voteHistory[this.props.userId] : null} loggedIn={!!this.props.user} refresh={this.updatePoll.bind(this)} pollId={this.state.pollId} choices={_.keys(this.state.choices)} />
             </Col>
             <Col md={6}>
               <PollChart rawData={this.state.choices} />

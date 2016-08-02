@@ -15,14 +15,20 @@ export default class ChoiceSelection extends React.Component {
     this.submitVoteEndpoint = BASE_URL + '/api/poll/' + this.props.pollId + '/vote';
 
     this.localStorageKey = 'votes'
-    
-    const voteStore = JSON.parse(localStorage.getItem(this.localStorageKey));
 
+    
     let choice = '';
     let status = '';
-    if (voteStore && voteStore[this.props.pollId]) {
-      choice = voteStore[this.props.pollId];
-      status = 'voted';
+    // prefer to use api data for vote history if logged in 
+    if (!this.props.loggedIn) {
+      const voteStore = JSON.parse(localStorage.getItem(this.localStorageKey));
+      if (voteStore && voteStore[this.props.pollId]) {
+        choice = voteStore[this.props.pollId];
+        status = 'voted';
+      }
+    } else {
+      choice = this.props.votedFor ? this.props.votedFor : '';
+      status = this.props.votedFor ? 'voted' :  '';
     }
 
     this.state = {
