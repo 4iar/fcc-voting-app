@@ -163,6 +163,13 @@ app.post('/api/poll/:id/vote', (request, response) => {
   })
 })
 
+app.get('/user', function (req, res) {
+  res.render('user', {
+    user: req.user
+  });
+});
+
+
 MongoClient.connect(mongolabUri, (err, database) => {
   if (err) return console.log(err)
   db = database
