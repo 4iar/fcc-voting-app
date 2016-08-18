@@ -95,7 +95,10 @@ app.post('/api/poll/create', (request, response) => {
   const description = poll.description;
   const voteHistory = {};
   const choices = poll.choices.reduce((choices, choice) => {
-    choices[choice] = 0;
+    // prevent questions from being empty strings
+    if (choice) {
+      choices[choice] = 0;
+    }
     return choices;
   }, {})
 
