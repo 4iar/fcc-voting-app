@@ -102,6 +102,11 @@ app.post('/api/poll/create', (request, response) => {
     return choices;
   }, {})
 
+  if (_.isEmpty(choices)) {
+    response.json({status: 'error', message: 'there were no valid choices'});
+    return;
+  }
+
   const dbEntry = { question, choices, description, id, user, userId, voteHistory };
 
   db.collection('polls').save(dbEntry, (error, result) => {
